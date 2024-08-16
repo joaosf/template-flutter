@@ -12,7 +12,7 @@ import 'package:template_flutter/view_model/local_push_notification.dart';
 void main() async {
   await GetStorage.init();
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   //TODO: only portrait mode, if you want to use landscape mode, remove this
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((value) => runApp(const MyApp()));
@@ -23,25 +23,27 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var firebaseApp = Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
-    firebaseApp.then((value) async {
-      await RemoteConfig().setup();
-      FirebaseMessaging.instance
-          .requestPermission(provisional: true)
-          .then((value) async {
-        FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-          LocalPushNotification.showNotification(PushDetails(message.hashCode,
-              message.notification!.title!, message.notification!.body!, ''));
-        });
-      });
-    });
+    RemoteConfig().setup();
+    //TODO: when you want to use firebase, uncomment this
+    // var firebaseApp = Firebase.initializeApp(
+    //   options: DefaultFirebaseOptions.currentPlatform,
+    // );
+    // firebaseApp.then((value) async {
+    //   await RemoteConfig().setup();
+    //   FirebaseMessaging.instance
+    //       .requestPermission(provisional: true)
+    //       .then((value) async {
+    //     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    //       LocalPushNotification.showNotification(PushDetails(message.hashCode,
+    //           message.notification!.title!, message.notification!.body!, ''));
+    //     });
+    //   });
+    // });
     LocalPushNotification();
 
-    return MaterialApp(
+    return const MaterialApp(
       localizationsDelegates: GlobalMaterialLocalizations.delegates,
-      supportedLocales: const [Locale('pt', 'BR')],
+      supportedLocales: [Locale('pt', 'BR')],
       home: HomeView(),
     );
   }

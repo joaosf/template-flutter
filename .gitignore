@@ -47,3 +47,4 @@ app.*.map.json
 /coverage
 pubspec.lock
 *.g.dart
+/ios/Podfile.lock
