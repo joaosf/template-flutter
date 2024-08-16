@@ -17,6 +17,7 @@ void main() {
 
   group('MovieRepository flow', () {
     test("MovieRepository Successful tests", () async {
+      // Arrange
       final mockHttpResponse = http.Response(jsonEncode(mockMovieJson), 200);
 
       when(() => mockHttpRequests.get(any()))
@@ -24,8 +25,10 @@ void main() {
 
       HttpRequests.instance = mockHttpRequests;
 
+      // Act
       final list = await MovieRepository().getAll();
 
+      // Assert
       expect(list.length, mockMovieJson.length);
     });
   });
