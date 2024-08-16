@@ -49,11 +49,7 @@ class _HomeViewState extends State<HomeView> {
                 onPressed: onPressed,
               ),
               ...movies.map(
-                (e) => Text(
-                  '${e.title} - ${e.director}',
-                  softWrap: true,
-                  overflow: TextOverflow.ellipsis,
-                ),
+                (e) => Text('${e.title} / ${e.director}'),
               ),
             ],
           ),

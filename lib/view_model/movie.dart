@@ -23,7 +23,6 @@ class MovieViewModel extends ChangeNotifier {
       _items.addAll(value);
       notifyListeners();
     }).catchError((error) {
-      print(error);
       _exception = error;
       notifyListeners();
     });
