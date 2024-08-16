@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:template_flutter/models/application_exception.dart';
 import 'package:template_flutter/models/movie.dart';
 import 'package:template_flutter/repository/movie.dart';
-import 'package:template_flutter/resource/application_exception.dart';
 
 class MovieViewModel extends ChangeNotifier {
   final List<MovieModel> _items = List<MovieModel>.empty(growable: true);

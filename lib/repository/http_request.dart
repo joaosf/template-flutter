@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:template_flutter/models/application_exception.dart';
 import 'package:template_flutter/repository/cache.dart';
 import 'package:template_flutter/repository/utils.dart';
-import 'package:template_flutter/resource/application_exception.dart';
 import 'package:template_flutter/resource/global_exception_message.dart';
 
 enum RequestType { get, post }
@@ -34,8 +34,8 @@ class HttpRequests {
 
   Future<http.Response> execute(String url,
       {CacheService? cacheService,
-        String? bodyData,
-        RequestType requestType = RequestType.get}) async {
+      String? bodyData,
+      RequestType requestType = RequestType.get}) async {
     HttpOverrides.global = MyHttpOverrides();
 
     cacheService = cacheService ?? CacheService(url);
@@ -53,18 +53,16 @@ class HttpRequests {
     }
 
     final request = (requestType == RequestType.get
-        ? http.get(Uri.parse(url), headers: {
-      'Accept': '*/*'
-    })
-        : http.post(Uri.parse(url),
-        headers: {
-          'Accept': '*/*',
-          'Accept-Encoding': 'gzip',
-          "Content-Type": "application/json"
-        },
-        body: bodyData))
+            ? http.get(Uri.parse(url), headers: {'Accept': '*/*'})
+            : http.post(Uri.parse(url),
+                headers: {
+                  'Accept': '*/*',
+                  'Accept-Encoding': 'gzip',
+                  "Content-Type": "application/json"
+                },
+                body: bodyData))
         .timeout(const Duration(seconds: 60),
-        onTimeout: () => http.Response('Request Timeout', 408));
+            onTimeout: () => http.Response('Request Timeout', 408));
 
     return Future.value(request).then((response) async {
       ResponseError.process(response.statusCode);

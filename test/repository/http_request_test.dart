@@ -2,8 +2,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:template_flutter/config/global_config.dart';
+import 'package:template_flutter/models/application_exception.dart';
 import 'package:template_flutter/repository/http_request.dart';
-import 'package:template_flutter/resource/application_exception.dart';
 import 'package:template_flutter/resource/endpoint.dart';
 import 'package:template_flutter/resource/global_exception_message.dart';
 
