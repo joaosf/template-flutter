@@ -31,7 +31,7 @@ class MovieViewModel extends ChangeNotifier {
   MovieModel? getByTitle(String title) =>
       _items.where((element) => element.title == title).first;
 
-  List<MovieModel> getAll() => _items;
+  List<MovieModel> get movies => _items;
 
   ApplicationException? get exception => _exception;
 }

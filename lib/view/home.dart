@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:template_flutter/models/movie.dart';
 import 'package:template_flutter/resource/global_label_message.dart';
 import 'package:template_flutter/view/components/button.dart';
 import 'package:template_flutter/view_model/movie.dart';
@@ -13,31 +12,31 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  List<MovieModel> movies = [];
+  late MovieViewModel viewModel;
 
   @override
   void initState() {
     super.initState();
   }
 
-  loadMovies() {
-    MovieViewModel viewModel = Provider.of<MovieViewModel>(context);
+  revertString(String text) {
+    return text.split(' ').map((e) => e.split('').reversed.join()).join(' ');
+  }
 
+  loadMovies() {
     viewModel.load();
     viewModel.addListener(() {
       if (viewModel.exception != null) {
         print(viewModel.exception!.message);
       }
 
-      setState(() {
-        movies = viewModel.getAll();
-      });
+      print(revertString(viewModel.movies.first.title));
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    loadMovies();
+    viewModel = Provider.of<MovieViewModel>(context);
 
     return Scaffold(
         body: Stack(
@@ -54,7 +53,7 @@ class _HomeViewState extends State<HomeView> {
                 text: GlobalLabel.homeButton.message,
                 onPressed: onPressed,
               ),
-              ...movies.map(
+              ...viewModel.movies.map(
                 (e) => Text('${e.title} / ${e.director}'),
               ),
             ],
@@ -66,5 +65,6 @@ class _HomeViewState extends State<HomeView> {
 
   onPressed() {
     print('Button pressed');
+    loadMovies();
   }
 }
