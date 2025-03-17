@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:template_flutter/models/movie.dart';
 import 'package:template_flutter/resource/global_label_message.dart';
 import 'package:template_flutter/view/components/button.dart';
@@ -12,12 +13,15 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  MovieViewModel viewModel = MovieViewModel();
   List<MovieModel> movies = [];
 
   @override
   void initState() {
     super.initState();
+  }
+
+  loadMovies() {
+    MovieViewModel viewModel = Provider.of<MovieViewModel>(context);
 
     viewModel.load();
     viewModel.addListener(() {
@@ -33,6 +37,8 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
+    loadMovies();
+
     return Scaffold(
         body: Stack(
       children: [

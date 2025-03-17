@@ -1,13 +1,12 @@
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:template_flutter/config/firebase_options.dart';
+import 'package:provider/provider.dart';
 import 'package:template_flutter/config/firebase_remote_config.dart';
 import 'package:template_flutter/view/home.dart';
 import 'package:template_flutter/view_model/local_push_notification.dart';
+import 'package:template_flutter/view_model/movie.dart';
 
 void main() async {
   await GetStorage.init();
@@ -15,7 +14,11 @@ void main() async {
 
   //TODO: only portrait mode, if you want to use landscape mode, remove this
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
-      .then((value) => runApp(const MyApp()));
+      .then((value) => runApp(MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => MovieViewModel()),
+      ],
+      child: const MyApp())));
 }
 
 class MyApp extends StatelessWidget {
